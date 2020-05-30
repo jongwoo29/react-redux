@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
+import { actionCreators } from "../store";
 
-function Home({todo}) {
+function Home({todo, addTodo}) {
     const [text, setText] = useState("");
     function onChange(e){
         setText(e.target.value);
@@ -9,7 +10,8 @@ function Home({todo}) {
 
     function onSubmit(e){
         e.preventDefault();
-        setText("");
+        setText("");    
+        addTodo(text);
     }
     return(
         <>
@@ -31,4 +33,10 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps) (Home);
+function mapDispatchToProps(dispatch){
+    return {
+        addTodo: text => dispatch(actionCreators.addTodo(text))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Home);
