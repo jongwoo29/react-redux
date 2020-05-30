@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
+import Todo from "../components/Todo";
 
-function Home({todo, addTodo}) {
+function Home({todos, addTodo}) {
     const [text, setText] = useState("");
     function onChange(e){
         setText(e.target.value);
@@ -21,7 +22,7 @@ function Home({todo, addTodo}) {
                 <button>Add</button>
             </form>
             <ul>
-                {JSON.stringify(todo)}
+                {todos.map(todo => <Todo {...todo} key={todo.id}/>)}
             </ul>
         </>
     )
@@ -29,13 +30,13 @@ function Home({todo, addTodo}) {
 
 function mapStateToProps(state){
     return {
-        todo: state
+        todos: state
     }
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        addTodo: text => dispatch(actionCreators.addTodo(text))
+        addTodo: text => dispatch(actionCreators.addTodo(text)),
     };
 }
 
